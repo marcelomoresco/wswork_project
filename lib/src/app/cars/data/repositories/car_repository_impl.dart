@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:wswork_project/src/app/cars/const/cars_endpoint.dart';
 import 'package:wswork_project/src/app/cars/domain/entities/lead.dart';
 import 'package:wswork_project/src/app/cars/domain/repositories/car_repository.dart';
 import 'package:wswork_project/src/app/cars/domain/entities/car.dart';
@@ -14,7 +15,7 @@ class CarRepositoryImpl implements CarRepository {
   @override
   Future<List<Car>> getCars() async {
     final response =
-        await _clientService.get(const WsRequest(path: "cars.json"));
+        await _clientService.get(const WsRequest(path: CarsEndpoints.getCars));
     final result = response.body['cars'] as List;
     return result.map((e) => Car.fromJson(e)).toList();
   }
@@ -25,7 +26,7 @@ class CarRepositoryImpl implements CarRepository {
         leads.map((lead) => lead.toMap()).toList();
     await _clientService.post(
       WsRequest(
-        path: "cars/leads",
+        path: CarsEndpoints.sendLeads,
         data: {
           'leads': leadsMapList,
         },
