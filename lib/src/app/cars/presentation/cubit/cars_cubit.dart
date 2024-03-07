@@ -34,7 +34,6 @@ class CarsCubit extends Cubit<CarsState> {
 
   Future<void> sendLeads() async {
     final leads = await _leadRepository.getAllLeads();
-    print(leads);
     if (leads.isNotEmpty) {
       await _carRepository.sendLeads(leads);
       await _leadRepository.deleteAll();

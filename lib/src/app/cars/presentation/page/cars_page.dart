@@ -23,7 +23,6 @@ class _CarsPageState extends State<CarsPage> {
     super.initState();
     controller.initial();
     Timer.periodic(const Duration(seconds: 30), (timer) {
-      print('------');
       controller.sendLeads();
     });
   }
