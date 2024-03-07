@@ -22,7 +22,7 @@ class _CarsPageState extends State<CarsPage> {
   void initState() {
     super.initState();
     controller.initial();
-    Timer.periodic(const Duration(seconds: 30), (timer) {
+    Timer.periodic(const Duration(minutes: 5), (timer) {
       controller.sendLeads();
     });
   }
