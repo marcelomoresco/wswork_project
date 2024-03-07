@@ -17,8 +17,8 @@ class CarsAppBar extends StatelessWidget implements PreferredSizeWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      centerTitle: false,
-      backgroundColor: Colors.white,
+      centerTitle: true,
+      backgroundColor: Colors.blue.shade800,
     );
   }
 

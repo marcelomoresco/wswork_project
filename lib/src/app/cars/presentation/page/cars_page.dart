@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:wswork_project/src/app/cars/presentation/cubit/cars_cubit.dart';
 import 'package:wswork_project/src/app/cars/presentation/view/cars_view.dart';
 import 'package:wswork_project/src/app/cars/presentation/widgets/app_bar/cars_app_bar.dart';
+import 'package:wswork_project/src/core/widgets/ws_error_page.dart';
 
 class CarsPage extends StatefulWidget {
   const CarsPage({super.key});
@@ -17,8 +20,12 @@ class _CarsPageState extends State<CarsPage> {
 
   @override
   void initState() {
-    controller.initial();
     super.initState();
+    controller.initial();
+    Timer.periodic(const Duration(seconds: 30), (timer) {
+      print('------');
+      controller.sendLeads();
+    });
   }
 
   @override
@@ -31,12 +38,13 @@ class _CarsPageState extends State<CarsPage> {
           if (state is CarsSuccess) {
             return CarsView(
               cars: state.cars,
+              checkedCar: state.checkedCar,
             );
           } else if (state is CarsError) {
-            return const SizedBox.shrink();
+            return const WsErrorPage();
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             );
           }
         },

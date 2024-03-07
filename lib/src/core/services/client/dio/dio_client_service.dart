@@ -18,7 +18,6 @@ class DioClientService implements ClientService {
       final response = await dio.delete(
         wsRequest.path,
         data: wsRequest.data,
-        queryParameters: wsRequest.headers,
         options: Options(
           headers: wsRequest.headers,
           contentType: wsRequest.contentType,
@@ -66,10 +65,11 @@ class DioClientService implements ClientService {
       final response = await dio.post(
         wsRequest.path,
         data: wsRequest.data,
-        queryParameters: wsRequest.headers,
         options: Options(
+          followRedirects: false,
           headers: wsRequest.headers,
           contentType: wsRequest.contentType,
+          validateStatus: (status) => true,
         ),
       );
 
@@ -91,7 +91,6 @@ class DioClientService implements ClientService {
       final response = await dio.put(
         wsRequest.path,
         data: wsRequest.data,
-        queryParameters: wsRequest.headers,
         options: Options(
           headers: wsRequest.headers,
           contentType: wsRequest.contentType,

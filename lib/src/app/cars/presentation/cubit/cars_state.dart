@@ -8,7 +8,8 @@ final class CarsLoading extends CarsState {}
 
 final class CarsSuccess extends CarsState {
   final List<Car> cars;
-  CarsSuccess({required this.cars});
+  final Car? checkedCar;
+  CarsSuccess({this.checkedCar, required this.cars});
 }
 
 final class CarsError extends CarsState {

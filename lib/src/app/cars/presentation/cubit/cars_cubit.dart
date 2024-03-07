@@ -1,21 +1,43 @@
 import 'package:bloc/bloc.dart';
 import 'package:wswork_project/src/app/cars/domain/repositories/car_repository.dart';
 import 'package:wswork_project/src/app/cars/domain/entities/car.dart';
+import 'package:wswork_project/src/app/cars/domain/repositories/lead_repository.dart';
 
 part 'cars_state.dart';
 
 class CarsCubit extends Cubit<CarsState> {
-  final CarRepository carRepository;
-  CarsCubit(this.carRepository) : super(CarsInitial());
+  final CarRepository _carRepository;
+  final LeadRepository _leadRepository;
+  CarsCubit(this._carRepository, this._leadRepository) : super(CarsInitial());
 
-  List<Car> checkedList = [];
+  late List<Car> cars;
 
   void initial() async {
-    checkedList.clear();
-    emit(CarsLoading());
-    final cars = await carRepository.getCars();
-    emit(CarsSuccess(cars: cars));
+    try {
+      emit(CarsLoading());
+      cars = await _carRepository.getCars();
+      emit(CarsSuccess(checkedCar: null, cars: cars));
+    } catch (e) {
+      emit(CarsError(message: e.toString()));
+    }
   }
 
-  void sendLead() {}
+  void checkCar(Car car) {
+    emit(CarsSuccess(checkedCar: car, cars: cars));
+  }
+
+  void insertLead(Car car) async {
+    emit(CarsLoading());
+    await _leadRepository.insertLead(car);
+    emit(CarsSuccess(checkedCar: null, cars: cars));
+  }
+
+  Future<void> sendLeads() async {
+    final leads = await _leadRepository.getAllLeads();
+    print(leads);
+    if (leads.isNotEmpty) {
+      await _carRepository.sendLeads(leads);
+      await _leadRepository.deleteAll();
+    }
+  }
 }

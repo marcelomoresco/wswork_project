@@ -10,6 +10,6 @@ class WsRequest {
     this.data,
     this.queryParameters,
     this.headers,
-    this.contentType,
+    this.contentType = 'application/json',
   });
 }

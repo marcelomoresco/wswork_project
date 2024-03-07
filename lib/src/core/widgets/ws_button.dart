@@ -34,42 +34,44 @@ class WsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: Opacity(
-        opacity: opacity,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            backgroundColor: Colors.blue.shade800,
-            disabledBackgroundColor: const Color(0XFFE0E0E0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Visibility(
-                visible: icon != null,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: icon,
-                ),
-              ),
-              Flexible(
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: fontSize,
+    return SafeArea(
+      child: Padding(
+        padding: padding,
+        child: Opacity(
+          opacity: opacity,
+          child: ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)),
+              backgroundColor: Colors.blue.shade800,
+              disabledBackgroundColor: const Color(0XFFE0E0E0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Visibility(
+                  visible: icon != null,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: icon,
                   ),
                 ),
-              ),
-            ],
+                Flexible(
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: fontSize,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
