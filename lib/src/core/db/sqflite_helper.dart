@@ -1,10 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:wswork_project/src/core/db/const/sqflite_const.dart';
 
 class DatabaseHelper {
-  static const VERSION = 1;
-  static const DATABASE_NAME = 'wswork_table';
-
   Database? _db;
   static DatabaseHelper? _instance;
 
@@ -12,6 +10,7 @@ class DatabaseHelper {
 
   static DatabaseHelper get instance {
     _instance ??= DatabaseHelper._();
+    _instance!._openDatabaseConnection();
     return _instance!;
   }
 
@@ -19,11 +18,15 @@ class DatabaseHelper {
 
   Future<Database> _openDatabaseConnection() async {
     var databasePath = await getDatabasesPath();
-    var path = join(databasePath, DATABASE_NAME);
-    _db ??= await openDatabase(
-      path,
-      version: VERSION,
-    );
+    var path = join(databasePath, SqfliteConstants.DATABASE_NAME);
+    if (_db == null || !(_db?.isOpen ?? false)) {
+      _db ??= await openDatabase(path, version: SqfliteConstants.VERSION,
+          onCreate: (db, version) {
+        db.execute(
+          'CREATE TABLE ${SqfliteConstants.leadTable} (id INTEGER PRIMARY KEY, deviceId TEXT, deviceVersion TEXT, deviceModel TEXT, brand TEXT, created_at INTEGER, car_id INTEGER)',
+        );
+      });
+    }
     return _db!;
   }
 
